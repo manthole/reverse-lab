@@ -1,0 +1,46 @@
+title: PowerShell lancé avec une commande encodée et une fenêtre cachée
+id: 2fb74d77-d005-4577-b66a-3dc0e3421a38
+status: experimental
+description: |
+    Détecte powershell.exe ou pwsh.exe lancé avec une commande encodée en Base64
+    (-EncodedCommand ou l'une de ses abréviations) et une fenêtre cachée : un schéma typique
+    des droppers. Le modificateur windash couvre aussi les variantes avec « / » et les tirets
+    typographiques (–, —) utilisés pour échapper aux détections naïves.
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://manthole.github.io/tools/deobfuscator/
+author: Manthole
+date: 2026-11-05
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.defense-evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith:
+              - '\powershell.exe'
+              - '\pwsh.exe'
+        - OriginalFileName:
+              - 'PowerShell.EXE'
+              - 'pwsh.dll'
+    selection_encoded:
+        CommandLine|windash|contains:
+            - ' -e '
+            - ' -ec '
+            - ' -en '
+            - ' -enc '
+            - ' -enco'
+    selection_hidden:
+        CommandLine|windash|contains:
+            - ' -w hidden'
+            - ' -w h '
+            - ' -win hidden'
+            - ' -windowstyle hidden'
+    condition: all of selection_*
+falsepositives:
+    - Scripts d'administration légitimes qui encodent leurs commandes (à mettre en liste blanche après vérification)
+level: high

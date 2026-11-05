@@ -1,0 +1,26 @@
+# Ne jamais publier d’échantillons, même chiffrés
+*.zip
+*.7z
+*.rar
+*.gz
+*.iso
+*.exe
+*.dll
+*.sys
+*.scr
+*.bin
+*.elf
+*.msi
+*.lnk
+*.doc
+*.docm
+*.xls
+*.xlsm
+*.one
+*.hta
+*.vbs
+*.js
+# fichiers de test autorisés
+!tests/**
+.DS_Store
+__pycache__/

@@ -1,0 +1,28 @@
+# Vérifie les règles de détection à chaque publication.
+# Actions épinglées par empreinte de commit.
+name: regles
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Outils
+        run: pip install yara-python sigma-cli
+      - name: Règles YARA (compilation, vrais et faux positifs)
+        run: python3 scripts/verifier_regles.py
+      - name: Règles Sigma (syntaxe et bonnes pratiques)
+        run: sigma check regles/sigma modeles/regle-sigma.yml

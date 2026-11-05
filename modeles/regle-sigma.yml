@@ -1,0 +1,28 @@
+# Modèle de règle Sigma. Copie ce fichier dans regles/sigma/ et adapte-le.
+# Une règle Sigma décrit un COMPORTEMENT dans des journaux (création de processus, registre,
+# réseau…) ; elle se convertit ensuite en requête pour Splunk, Elastic, Microsoft Sentinel, etc.
+# Génère un identifiant unique : python3 -c "import uuid; print(uuid.uuid4())"
+title: Titre court du comportement détecté
+id: f981d816-b662-46c2-aef4-960719eb34bf
+status: experimental
+description: Ce que la règle détecte, et pourquoi c'est suspect.
+references:
+    - https://attack.mitre.org/techniques/T1053/005/
+author: Manthole
+date: 2026-11-05
+tags:
+    - attack.persistence
+    - attack.t1053.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains|all:
+            - '/create'
+            - '\AppData\Local\Temp'
+    condition: selection
+falsepositives:
+    - Logiciels légitimes qui créent des tâches depuis le dossier utilisateur
+level: medium
