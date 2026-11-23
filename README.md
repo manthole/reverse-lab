@@ -43,3 +43,7 @@ et l'[extracteur d'IOC](https://manthole.github.io/tools/ioc/).
 Les échantillons ne sont **jamais** ouverts sur la machine hôte, **jamais** déposés dans ce
 dépôt (le `.gitignore` bloque les archives et exécutables), et **jamais** envoyés sur une
 plateforme publique s'ils viennent d'une entreprise. Détails dans le [guide du labo](labo/INSTALLATION.md#règles-de-sécurité-non-négociables).
+
+## Licence
+
+Code et documentation sous [licence MIT](LICENSE) © 2026 Manthole : libre réutilisation, y compris commerciale, à condition de conserver la mention de copyright.
